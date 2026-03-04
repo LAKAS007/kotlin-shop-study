@@ -47,14 +47,22 @@ fun Application.module() {
     val redisHost = config.property("redis.host").getString()
     val redisPort = config.property("redis.port").getString().toInt()
     val redisPassword = config.propertyOrNull("redis.password")?.getString()
-    RedisClient.init(redisHost, redisPort, redisPassword)
+    try {
+        RedisClient.init(redisHost, redisPort, redisPassword)
+    } catch (e: Exception) {
+        println("Redis unavailable, caching disabled: ${e.message}")
+    }
 
     val rabbitHost = config.property("rabbitmq.host").getString()
     val rabbitPort = config.property("rabbitmq.port").getString().toInt()
     val rabbitUser = config.property("rabbitmq.username").getString()
     val rabbitPassword = config.property("rabbitmq.password").getString()
-    RabbitMQClient.init(rabbitHost, rabbitPort, rabbitUser, rabbitPassword)
-    OrderEventConsumer.start()
+    try {
+        RabbitMQClient.init(rabbitHost, rabbitPort, rabbitUser, rabbitPassword)
+        OrderEventConsumer.start()
+    } catch (e: Exception) {
+        println("RabbitMQ unavailable, messaging disabled: ${e.message}")
+    }
 
     val userRepository = UserRepositoryImpl()
     val productRepository = ProductRepositoryImpl()
