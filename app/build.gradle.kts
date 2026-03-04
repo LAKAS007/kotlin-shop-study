@@ -1,4 +1,8 @@
-plugins { application; kotlin("plugin.serialization") }
+plugins {
+    application
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin("plugin.serialization")
+}
 application { mainClass.set("com.kotlinshop.ApplicationKt") }
 val ktorVersion = "3.0.3"
 dependencies {
@@ -11,8 +15,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.12")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 }
-tasks.jar {
+tasks.shadowJar {
+    archiveClassifier.set("")
     manifest { attributes["Main-Class"] = "com.kotlinshop.ApplicationKt" }
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    mergeServiceFiles()
 }

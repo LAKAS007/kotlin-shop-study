@@ -1,0 +1,10 @@
+build/
+.gradle/
+.kotlin/
+.idea/
+.claude/
+*.jar
+*.log
+.env
+.DS_Store
+out/
