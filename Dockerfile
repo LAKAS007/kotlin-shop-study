@@ -1,10 +1,10 @@
 FROM gradle:8.11-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN gradle :app:jar --no-daemon
+RUN gradle :app:installDist --no-daemon
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=builder /app/app/build/libs/*.jar app.jar
+COPY --from=builder /app/app/build/install/app .
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["bin/app"]
