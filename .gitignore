@@ -1,0 +1,15 @@
+build/
+.gradle/
+.kotlin/
+.claude/
+out/
+*.jar
+.env
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
+*.kotlin_module
+*.log
