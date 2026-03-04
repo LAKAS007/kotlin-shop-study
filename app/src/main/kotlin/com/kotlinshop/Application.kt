@@ -45,7 +45,7 @@ fun Application.module() {
     JwtConfig.audience = config.property("jwt.audience").getString()
 
     val redisHost = config.property("redis.host").getString()
-    val redisPort = config.property("redis.port").getString().toInt()
+    val redisPort = config.property("redis.port").getString().toIntOrNull() ?: 6379
     val redisPassword = config.propertyOrNull("redis.password")?.getString()
     try {
         RedisClient.init(redisHost, redisPort, redisPassword)
@@ -54,7 +54,7 @@ fun Application.module() {
     }
 
     val rabbitHost = config.property("rabbitmq.host").getString()
-    val rabbitPort = config.property("rabbitmq.port").getString().toInt()
+    val rabbitPort = config.property("rabbitmq.port").getString().toIntOrNull() ?: 5672
     val rabbitUser = config.property("rabbitmq.username").getString()
     val rabbitPassword = config.property("rabbitmq.password").getString()
     try {
