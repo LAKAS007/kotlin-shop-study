@@ -1,7 +1,7 @@
 FROM gradle:8.11-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN ./gradlew :app:shadowJar --no-daemon -x test
+RUN gradle :app:shadowJar --no-daemon -x test
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
